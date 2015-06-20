@@ -16,7 +16,7 @@ import java.net.URL;
  * Created by sashaadmin on 6/20/15.
  */
 public class WebAPI {
-    private static final String href = "172.30.42.122:3000/api/v1/";
+    private static final String href = "http://172.30.42.122:3000/api/v1/";
     private static String session = null;
 
     public JSONObject signinShopper(String em, String pw){
@@ -28,7 +28,7 @@ public class WebAPI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject resp = doPost(addr, pdat);
+        JSONObject resp = doPost(addr, pdat, true);
         return resp;
     }
 
@@ -41,7 +41,7 @@ public class WebAPI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject resp = doPost(addr, pdat);
+        JSONObject resp = doPost(addr, pdat, true);
         return resp;
     }
 
@@ -120,7 +120,7 @@ public class WebAPI {
         return "";
     }
 
-    public static JSONObject doPost(String uri, JSONObject json) {
+    private JSONObject doPost(String uri, JSONObject json) {
         HttpURLConnection urlConnection;
         uri = appS(uri);
         String data = json.toString();
@@ -169,7 +169,57 @@ public class WebAPI {
         }
     }
 
-    public static JSONObject doGet(String uri, JSONObject json) {
+
+    private JSONObject doPost(String uri, JSONObject json, boolean isLogin) {
+        HttpURLConnection urlConnection;
+        String data = json.toString();
+        String result = null;
+        try {
+            //Connect
+            urlConnection = (HttpURLConnection) ((new URL(uri).openConnection()));
+            urlConnection.setDoOutput(true);
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setRequestProperty("Accept", "application/json");
+            urlConnection.setRequestMethod("POST");
+            urlConnection.connect();
+
+            //Write
+            OutputStream outputStream = urlConnection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            writer.write(data);
+            writer.close();
+            outputStream.close();
+
+            //Read
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            bufferedReader.close();
+            result = sb.toString();
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONObject jo = new JSONObject(result);
+            return jo;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    private JSONObject doGet(String uri, JSONObject json) {
         HttpURLConnection urlConnection;
         uri = appS(uri);
         String data = json.toString();

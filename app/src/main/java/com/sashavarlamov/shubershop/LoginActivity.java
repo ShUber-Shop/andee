@@ -1,21 +1,30 @@
 package com.sashavarlamov.shubershop;
 
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.EditText;
 
 
 public class LoginActivity extends ActionBarActivity {
+    private EditText emailText = null;
+    private EditText passwordText = null;
+    private WebAPI api = new WebAPI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.activity_login);
+
+        emailText = (EditText) findViewById(R.id.email_input);
+        passwordText = (EditText) findViewById(R.id.password_input);
+
+        System.out.println("Views initialized!");
     }
 
     @Override
@@ -41,12 +50,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void doLogin(View view) {
-        JSONObject jo = new JSONObject();
-        try {
-            jo.put("username", "");
-            jo.put("password", "");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Email is, " + emailText.getText().toString() + " and password is, " + passwordText.getText().toString());
+        api.signinConsumer(emailText.getText().toString(), passwordText.getText().toString());
     }
 }
