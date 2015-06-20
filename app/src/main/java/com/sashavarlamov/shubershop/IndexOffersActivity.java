@@ -1,17 +1,30 @@
 package com.sashavarlamov.shubershop;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class IndexOffersActivity extends ActionBarActivity {
     private WebAPI api = new WebAPI();
     private String listId = null;
     private String listName = null;
+    private ListView pendingOffersView = null;
+    private ArrayList<Job> jobs = null;
+    private IndexOffersActivity me = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +33,8 @@ public class IndexOffersActivity extends ActionBarActivity {
 
         listId = getIntent().getStringExtra("listId");
         listName = getIntent().getStringExtra("listName");
+
+        setTitle("Offers for " + listName);
 
         loadData();
     }
@@ -48,7 +63,39 @@ public class IndexOffersActivity extends ActionBarActivity {
 
     public void loadData(){
         // TODO: Actually present the information
-        JSONObject dat = api.indexJobs(listId);
-        System.out.println(dat.toString());
+        jobs = api.indexJobs(listId);
+        ArrayList<String> fin = new ArrayList<String>();
+        for(int i = 0; i < jobs.size(); i++) {
+            if(jobs.get(i).offer > 0) {
+                fin.add(jobs.get(i).offer + " Delivered.");
+            }
+        }
+        String[] finArr;
+        if(fin.size() == 0) {
+            finArr = new String[1];
+            finArr[0] = "No Offers Have Been Submitted Yet";
+        } else {
+            finArr = new String[fin.size()];
+            int cnt = 0;
+            for(String s : fin) {
+                finArr[cnt] = s;
+                cnt++;
+            }
+        }
+        pendingOffersView = (ListView) findViewById(R.id.pending_offers_list);
+        ArrayAdapter<String> lists = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_row, finArr);
+        pendingOffersView.setAdapter(lists);
+        pendingOffersView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Intent intent = new Intent(me, InspectOffer.class);
+                intent.putExtra("listId", listId);
+                intent.putExtra("listName", listName);
+                intent.putExtra("jobId", jobs.get(arg2).id);
+                intent.putExtra("title", jobs.get(arg2).offer + " Delivered.");
+                startActivity(intent);
+                System.out.println("Clicked an item");
+            }
+        });
+        System.out.println(jobs.get(0).offer);
     }
 }

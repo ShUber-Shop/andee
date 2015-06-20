@@ -9,4 +9,6 @@
     <string name="title_activity_add_item">AddItemActivity</string>
     <string name="title_activity_inspect_item">InspectItemActivity</string>
     <string name="title_activity_index_offers">IndexOffersActivity</string>
+    <string name="title_activity_sdecision_view">SDecisionView</string>
+    <string name="title_activity_inspect_offer">InspectOffer</string>
 </resources>

@@ -169,10 +169,46 @@ public class WebAPI {
         return "";
     }
 
-    public JSONObject indexJobs(String listId) {
+    public ArrayList<Job> indexJobs(String listId) {
         String addr = href + "lists/" + listId + "/jobs";
         JSONObject ret = doGet(addr, null);
-        return ret;
+        ArrayList<Job> fin = new ArrayList<Job>();
+        try {
+            JSONArray arr = ret.getJSONArray("jobs");
+            for(int i = 0; i < arr.length(); i++) {
+                JSONObject c = arr.getJSONObject(i);
+                Job j = new Job();
+                j.accepted = c.getBoolean("accepted");
+                j.done = c.getBoolean("done");
+                j.listId = listId;
+                j.id = c.getString("_id");
+                j.shopper = c.getString("shopper");
+                j.offer = (c.optDouble("offer", -1.0) >= 0) ? c.getDouble("offer") : c.getInt("offer");
+                fin.add(j);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return fin;
+    }
+
+    public Job getJob(String listId, String jobId) {
+        String addr = href + "lists/" + listId + "/jobs/" + jobId;
+        JSONObject c = doGet(addr, new JSONObject());
+        Job j = new Job();
+        try {
+            j.accepted = c.getBoolean("accepted");
+            j.done = c.getBoolean("done");
+            j.listId = listId;
+            j.id = c.getString("_id");
+            JSONObject shp = c.getJSONObject("shopper");
+            j.shopper = shp.getString("_id");
+            j.shopperName = shp.getString("firstName") + " " + shp.get("lastName");
+            j.offer = (c.optDouble("offer", -1.0) >= 0) ? c.getDouble("offer") : c.getInt("offer");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return j;
     }
 
     public JSONObject createJob(String listId) {

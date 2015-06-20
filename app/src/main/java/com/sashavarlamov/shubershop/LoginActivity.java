@@ -64,8 +64,7 @@ public class LoginActivity extends ActionBarActivity {
     public void doLoginS(View view) {
         JSONObject resp = api.signinShopper(emailText.getText().toString(), passwordText.getText().toString());
         if(resp != null && resp.has("session")) {
-            // TODO: Get the data from the response
-            Intent intent = new Intent(this, CDecisionView.class);
+            Intent intent = new Intent(this, SDecisionView.class);
             startActivity(intent);
             System.out.println("Started the activity as shopper");
         } else {
