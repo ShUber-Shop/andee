@@ -4,6 +4,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -34,5 +38,15 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void doLogin(View view) {
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("username", "");
+            jo.put("password", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
