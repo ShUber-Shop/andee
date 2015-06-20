@@ -1,5 +1,6 @@
 package com.sashavarlamov.shubershop;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import org.json.JSONObject;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -51,6 +54,19 @@ public class LoginActivity extends ActionBarActivity {
 
     public void doLogin(View view) {
         System.out.println("Email is, " + emailText.getText().toString() + " and password is, " + passwordText.getText().toString());
-        api.signinConsumer(emailText.getText().toString(), passwordText.getText().toString());
+        JSONObject resp = api.signinConsumer(emailText.getText().toString(), passwordText.getText().toString());
+        if(resp.has("session")) {
+            // TODO: Get the data from the response
+            Intent intent = new Intent(this, CDecisionView.class);
+            intent.putExtra("firstname", "Sasha");
+            intent.putExtra("lastname", "Varlamov");
+            intent.putExtra("mail", "Hong Kong");
+            intent.putExtra("email", "me@me.com");
+            intent.putExtra("isConsumer", true);
+            startActivity(intent);
+            System.out.println("Started the activity");
+        } else {
+            // TODO: Create a dialog to tell the user it didn't work!
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.sashavarlamov.shubershop;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -11,12 +13,13 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 /**
  * Created by sashaadmin on 6/20/15.
  */
 public class WebAPI {
-    private static final String href = "http://172.30.42.122:3000/api/v1/";
+    private static final String href = "http://172.30.43.246:3000/api/v1/";
     private static String session = null;
 
     public JSONObject signinShopper(String em, String pw){
@@ -29,6 +32,12 @@ public class WebAPI {
             e.printStackTrace();
         }
         JSONObject resp = doPost(addr, pdat, true);
+        try {
+            session = resp.getString("session");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return resp;
     }
 
@@ -42,7 +51,28 @@ public class WebAPI {
             e.printStackTrace();
         }
         JSONObject resp = doPost(addr, pdat, true);
+        try {
+            session = resp.getString("session");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return resp;
+    }
+
+    public HashMap<String, String> indexLists() {
+        String addr = href + "lists";
+        JSONObject resp = doGet(addr, null);
+        HashMap<String, String> dat = new HashMap<String, String>();
+        try {
+            JSONArray arr = resp.getJSONArray("lists");
+
+            for(int i = 0; i < arr.length(); i++) {
+                dat.put(new JSONObject(arr.get(i).toString()).getString("_id"), new JSONObject(arr.get(i).toString()).getString("name"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return dat;
     }
 
     public String viewConsumerInfo(String consId) {
@@ -222,23 +252,15 @@ public class WebAPI {
     private JSONObject doGet(String uri, JSONObject json) {
         HttpURLConnection urlConnection;
         uri = appS(uri);
-        String data = json.toString();
+        String data = "";
+        if(json != null) {
+            data = json.toString();
+        }
         String result = null;
         try {
             //Connect
             urlConnection = (HttpURLConnection) ((new URL(uri).openConnection()));
-            urlConnection.setDoOutput(true);
-            urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Accept", "application/json");
             urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-
-            //Write
-            OutputStream outputStream = urlConnection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-            writer.write(data);
-            writer.close();
-            outputStream.close();
 
             //Read
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
@@ -261,6 +283,7 @@ public class WebAPI {
 
         try {
             JSONObject jo = new JSONObject(result);
+            System.out.println(jo.toString());
             return jo;
         } catch (Exception e) {
             e.printStackTrace();
