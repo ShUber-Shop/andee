@@ -6,4 +6,5 @@
     <string name="title_activity_cdecision_view">CDecisionView</string>
     <string name="title_activity_list_view">ListViewActivity</string>
     <string name="title_activity_new_list">NewListActivity</string>
+    <string name="title_activity_add_item">AddItemActivity</string>
 </resources>

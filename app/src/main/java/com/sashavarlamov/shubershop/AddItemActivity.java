@@ -1,49 +1,40 @@
 package com.sashavarlamov.shubershop;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class ListViewActivity extends ActionBarActivity {
+public class AddItemActivity extends ActionBarActivity {
+    private WebAPI api = new WebAPI();
     private String listId = null;
     private String listName = null;
-    private JSONObject list = null;
-    private TextView addrLabel = null;
-    private WebAPI api = new WebAPI();
+    private EditText itemNameEdit = null;
+    private EditText itemNotesEdit = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_view);
+        setContentView(R.layout.activity_add_item);
 
-        listId = getIntent().getStringExtra("id");
-        listName = getIntent().getStringExtra("name");
+        listId = getIntent().getStringExtra("listId");
+        listName = getIntent().getStringExtra("listName");
 
-        addrLabel = (TextView) findViewById(R.id.deliver_to_text);
+        setTitle("Add an Item to " + listName);
 
-        list = api.viewList(listId);
-
-        try {
-            addrLabel.setText(list.getString("address"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        setTitle(listName);
+        itemNameEdit = (EditText) findViewById(R.id.item_name_input);
+        itemNotesEdit = (EditText) findViewById(R.id.item_notes_input);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_list_view, menu);
+        getMenuInflater().inflate(R.menu.menu_add_item, menu);
         return true;
     }
 
@@ -62,10 +53,12 @@ public class ListViewActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void gotoAddItem(View view) {
-        Intent intent = new Intent(this, AddItemActivity.class);
-        intent.putExtra("listId", listId);
-        intent.putExtra("listName", listName);
-        startActivity(intent);
+    public void addItem(View view) {
+        JSONObject jo = api.addToList(listId, itemNameEdit.getText().toString(), itemNotesEdit.getText().toString());
+        if(jo.has("_id")){
+            finish();
+        } else {
+            //TODO: Notify the user that the item could not be created
+        }
     }
 }

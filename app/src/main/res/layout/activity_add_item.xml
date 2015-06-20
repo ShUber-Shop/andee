@@ -1,0 +1,48 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.sashavarlamov.shubershop.AddItemActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/item_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:maxLength="14"
+            android:maxLines="1"
+            android:singleLine="true"/>
+        <EditText
+            android:id="@+id/item_notes_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Notes: Tell us About the Item"
+            android:maxLength="14"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/add_item_to_list_finally_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Add to List"
+            android:textStyle="bold"
+            android:onClick="addItem"/>
+
+    </LinearLayout>
+</ScrollView>

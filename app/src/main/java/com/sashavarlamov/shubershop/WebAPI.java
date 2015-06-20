@@ -108,14 +108,24 @@ public class WebAPI {
         return ret;
     }
 
-    public String viewList(String listId) {
+    public JSONObject viewList(String listId) {
         String addr = href + "lists/" + listId;
-        return "";
+        JSONObject ret = doGet(addr, null);
+        System.out.println(ret.toString());
+        return ret;
     }
 
-    public String addToList(String listId) {
-        String addr = href + "lists/" + listId;
-        return "";
+    public JSONObject addToList(String listId, String itemName, String itemNotes) {
+        String addr = href + "lists/" + listId + "/items";
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("notes", itemNotes);
+            jo.put("name", itemName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject ret = doPost(addr, jo);
+        return ret;
     }
 
     public String viewItem(String listId, String itemId) {
