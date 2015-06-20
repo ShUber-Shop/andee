@@ -1,5 +1,7 @@
 package com.sashavarlamov.shubershop;
 
+import android.widget.ArrayAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -110,9 +113,28 @@ public class WebAPI {
 
     public JSONObject viewList(String listId) {
         String addr = href + "lists/" + listId;
-        JSONObject ret = doGet(addr, null);
-        System.out.println(ret.toString());
-        return ret;
+        JSONObject resp = doGet(addr, null);
+        return resp;
+    }
+
+    public ArrayList<ShoppingItem> indexItems(String listId) {
+        String addr = href + "lists/" + listId + "/items";
+        JSONObject resp = doGet(addr, null);
+        ArrayList<ShoppingItem> dat = new ArrayList<ShoppingItem>();
+        try {
+            JSONArray arr = resp.getJSONArray("items");
+
+            for(int i = 0; i < arr.length(); i++) {
+                ShoppingItem tempItem = new ShoppingItem();
+                tempItem.id = new JSONObject(arr.get(i).toString()).getString("_id");
+                tempItem.name = new JSONObject(arr.get(i).toString()).getString("name");
+                tempItem.notes = new JSONObject(arr.get(i).toString()).getString("notes");
+                dat.add(tempItem);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return dat;
     }
 
     public JSONObject addToList(String listId, String itemName, String itemNotes) {

@@ -52,7 +52,7 @@ public class CDecisionView extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newList(View view){
+    public void newList(){
         Intent intent = new Intent(this, NewListActivity.class);
         startActivity(intent);
     }
@@ -68,13 +68,13 @@ public class CDecisionView extends ActionBarActivity {
             current++;
         }
         shoppingListsView = (ListView) findViewById(R.id.shopping_lists_list);
-        final ArrayAdapter<String> lists = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_row, names);
+        ArrayAdapter<String> lists = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_row, names);
         shoppingListsView.setAdapter(lists);
         shoppingListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Intent intent = new Intent(me, ListViewActivity.class);
-                intent.putExtra("name", names[arg2]);
-                intent.putExtra("id", ids[arg2]);
+                intent.putExtra("listId", ids[arg2]);
+                intent.putExtra("listName", names[arg2]);
                 startActivity(intent);
                 System.out.println("Started the activity");
             }

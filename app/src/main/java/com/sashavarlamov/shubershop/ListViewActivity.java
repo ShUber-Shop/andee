@@ -6,10 +6,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ListViewActivity extends ActionBarActivity {
@@ -17,27 +24,32 @@ public class ListViewActivity extends ActionBarActivity {
     private String listName = null;
     private JSONObject list = null;
     private TextView addrLabel = null;
+    private ListView shoppingItemsView;
+    private ArrayList<ShoppingItem> itemsArrayList = null;
+    private String[] ids = null;
+    private String[] names = null;
     private WebAPI api = new WebAPI();
+    private final ListViewActivity me = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
 
-        listId = getIntent().getStringExtra("id");
-        listName = getIntent().getStringExtra("name");
+        listId = getIntent().getStringExtra("listId");
+        listName = getIntent().getStringExtra("listName");
+
+        setTitle(listName);
 
         addrLabel = (TextView) findViewById(R.id.deliver_to_text);
 
-        list = api.viewList(listId);
+        loadData();
 
         try {
-            addrLabel.setText(list.getString("address"));
+            addrLabel.setText("Delivery to: " + list.getString("address"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        setTitle(listName);
     }
 
     @Override
@@ -60,6 +72,32 @@ public class ListViewActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadData(){
+        list = api.viewList(listId);
+
+        ArrayList<ShoppingItem> raw = api.indexItems(listId);
+        itemsArrayList = raw;
+        names = new String[raw.size()];
+        int current = 0;
+        for(ShoppingItem si : raw) {
+            names[current] = si.name;
+            current++;
+        }
+        shoppingItemsView = (ListView) findViewById(R.id.shopping_items_list);
+        ArrayAdapter<String> items = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_row, names);
+        shoppingItemsView.setAdapter(items);
+        shoppingItemsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Intent intent = new Intent(me, InspectItemActivity.class);
+                intent.putExtra("name", itemsArrayList.get(arg2).name);
+                intent.putExtra("notes", itemsArrayList.get(arg2).notes);
+                intent.putExtra("id", itemsArrayList.get(arg2).id);
+                startActivity(intent);
+                System.out.println("Started the activity");
+            }
+        });
     }
 
     public void gotoAddItem(View view) {
