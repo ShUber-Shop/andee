@@ -8,4 +8,5 @@
     <string name="title_activity_new_list">NewListActivity</string>
     <string name="title_activity_add_item">AddItemActivity</string>
     <string name="title_activity_inspect_item">InspectItemActivity</string>
+    <string name="title_activity_index_offers">IndexOffersActivity</string>
 </resources>

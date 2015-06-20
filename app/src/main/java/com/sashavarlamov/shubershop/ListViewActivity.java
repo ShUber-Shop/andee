@@ -106,4 +106,17 @@ public class ListViewActivity extends ActionBarActivity {
         intent.putExtra("listName", listName);
         startActivity(intent);
     }
+
+    public void seeOffers(View view) {
+        Intent intent = new Intent(this, IndexOffersActivity.class);
+        intent.putExtra("listId", listId);
+        intent.putExtra("listName", listName);
+        startActivity(intent);
+    }
+
+    public void sendList(View view) {
+        // TODO: Notify the user!
+        JSONObject resp = api.createJob(listId);
+        System.out.println(resp);
+    }
 }

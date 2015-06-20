@@ -165,9 +165,16 @@ public class WebAPI {
         return "";
     }
 
-    public String openJob() {
-        String addr = href + "jobs";
-        return "";
+    public JSONObject indexJobs(String listId) {
+        String addr = href + "lists/" + listId + "/jobs";
+        JSONObject ret = doGet(addr, null);
+        return ret;
+    }
+
+    public JSONObject createJob(String listId) {
+        String addr = href + "lists/" + listId + "/jobs";
+        JSONObject ret = doPost(addr, new JSONObject());
+        return ret;
     }
 
     public String cancelJob(String jobId) {
@@ -177,11 +184,6 @@ public class WebAPI {
 
     public String acceptJob(String jobId) {
         String addr = href + "jobs/" + jobId + "/accept";
-        return "";
-    }
-
-    public String expenseJob(String jobId) {
-        String addr = href + "jobs/" + jobId + "/expense";
         return "";
     }
 

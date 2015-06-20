@@ -27,6 +27,8 @@ public class CDecisionView extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cdecision_view);
 
+        setTitle(WebAPI.firstName + " " + WebAPI.lastName);
+
         loadData();
     }
 

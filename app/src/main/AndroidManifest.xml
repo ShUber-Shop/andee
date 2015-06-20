@@ -54,6 +54,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sashavarlamov.shubershop.ListViewActivity" />
         </activity>
+        <activity
+            android:name=".IndexOffersActivity"
+            android:label="@string/title_activity_index_offers"
+            android:parentActivityName=".ListViewActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sashavarlamov.shubershop.ListViewActivity" />
+        </activity>
     </application>
 
 </manifest>

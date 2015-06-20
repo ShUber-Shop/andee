@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="View Offers"
-            android:onClick="sendList"/>
+            android:onClick="seeOffers"/>
 
         <Button
             android:id="@+id/send_to_shoppers_near_me_button_decision"
