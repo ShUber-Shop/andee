@@ -26,8 +26,6 @@ public class LoginActivity extends ActionBarActivity {
 
         emailText = (EditText) findViewById(R.id.email_input);
         passwordText = (EditText) findViewById(R.id.password_input);
-
-        System.out.println("Views initialized!");
     }
 
     @Override
@@ -52,14 +50,24 @@ public class LoginActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void doLogin(View view) {
-        System.out.println("Email is, " + emailText.getText().toString() + " and password is, " + passwordText.getText().toString());
+    public void doLoginC(View view) {
         JSONObject resp = api.signinConsumer(emailText.getText().toString(), passwordText.getText().toString());
-        if(resp.has("session")) {
+        if(resp != null && resp.has("session")) {
+            Intent intent = new Intent(this, CDecisionView.class);
+            startActivity(intent);
+            System.out.println("Started the activity as consumer");
+        } else {
+            // TODO: Create a dialog to tell the user it didn't work!
+        }
+    }
+
+    public void doLoginS(View view) {
+        JSONObject resp = api.signinShopper(emailText.getText().toString(), passwordText.getText().toString());
+        if(resp != null && resp.has("session")) {
             // TODO: Get the data from the response
             Intent intent = new Intent(this, CDecisionView.class);
             startActivity(intent);
-            System.out.println("Started the activity");
+            System.out.println("Started the activity as shopper");
         } else {
             // TODO: Create a dialog to tell the user it didn't work!
         }

@@ -35,14 +35,24 @@
             android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/sign_in_button"
+            android:id="@+id/sign_in_button_c"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Sign In"
+            android:text="Sign In as a Consumer"
             android:textStyle="bold"
-            android:onClick="doLogin"/>
+            android:onClick="doLoginC"/>
+
+        <Button
+            android:id="@+id/sign_in_button_s"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Sign In as a Shopper"
+            android:textStyle="bold"
+            android:onClick="doLoginS"/>
 
     </LinearLayout>
 </ScrollView>

@@ -39,10 +39,14 @@ public class WebAPI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject resp = doPost(addr, pdat, true);
+        JSONObject resp = doPost(addr, pdat, false);
+        System.out.println(resp.toString());
         try {
-            session = resp.getString("session");
-
+            if(resp != null && resp.has("session")) {
+                session = resp.getString("session");
+            } else {
+                System.out.println("There wasn't a session in the response");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -252,7 +256,7 @@ public class WebAPI {
     }
 
 
-    private JSONObject doPost(String uri, JSONObject json, boolean isLogin) {
+    private JSONObject doPost(String uri, JSONObject json, boolean isConsumer) {
         HttpURLConnection urlConnection;
         String data = json.toString();
         String result = null;
