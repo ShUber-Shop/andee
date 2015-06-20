@@ -30,6 +30,14 @@
             android:name=".ListViewActivity"
             android:label="@string/title_activity_list_view" >
         </activity>
+        <activity
+            android:name=".NewListActivity"
+            android:label="@string/title_activity_new_list"
+            android:parentActivityName=".ListViewActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sashavarlamov.shubershop.ListViewActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -27,32 +27,7 @@ public class CDecisionView extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cdecision_view);
 
-        HashMap<String, String> raw = api.indexLists();
-        ids = new String[raw.size()];
-        names = new String[raw.size()];
-        int current = 0;
-        for(Map.Entry<String, String> entry : raw.entrySet()) {
-            ids[current] = entry.getKey();
-            names[current] = entry.getValue();
-            current++;
-        }
-        shoppingListsView = (ListView) findViewById(R.id.shopping_lists_list);
-        final ArrayAdapter<String> lists = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_row, names);
-        shoppingListsView.setAdapter(lists);
-        shoppingListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Intent intent = new Intent(me, ListViewActivity.class);
-                System.out.println(names[arg2]);
-                System.out.println(ids[arg2]);
-                intent.putExtra("firstname", "Sasha");
-                intent.putExtra("lastname", "Varlamov");
-                intent.putExtra("mail", "Hong Kong");
-                intent.putExtra("email", "me@me.com");
-                intent.putExtra("isConsumer", true);
-                startActivity(intent);
-                System.out.println("Started the activity");
-            }
-        });
+        loadData();
     }
 
     @Override
@@ -75,5 +50,34 @@ public class CDecisionView extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void newList(View view){
+        Intent intent = new Intent(this, NewListActivity.class);
+        startActivity(intent);
+    }
+
+    public void loadData(){
+        HashMap<String, String> raw = api.indexLists();
+        ids = new String[raw.size()];
+        names = new String[raw.size()];
+        int current = 0;
+        for(Map.Entry<String, String> entry : raw.entrySet()) {
+            ids[current] = entry.getKey();
+            names[current] = entry.getValue();
+            current++;
+        }
+        shoppingListsView = (ListView) findViewById(R.id.shopping_lists_list);
+        final ArrayAdapter<String> lists = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_row, names);
+        shoppingListsView.setAdapter(lists);
+        shoppingListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Intent intent = new Intent(me, ListViewActivity.class);
+                intent.putExtra("name", names[arg2]);
+                intent.putExtra("id", ids[arg2]);
+                startActivity(intent);
+                System.out.println("Started the activity");
+            }
+        });
     }
 }

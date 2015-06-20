@@ -14,6 +14,11 @@ public class ListViewActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
+
+        listId = getIntent().getStringExtra("id");
+        listName = getIntent().getStringExtra("name");
+
+        setTitle(listName);
     }
 
     @Override

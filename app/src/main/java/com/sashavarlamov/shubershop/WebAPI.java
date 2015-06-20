@@ -19,8 +19,13 @@ import java.util.HashMap;
  * Created by sashaadmin on 6/20/15.
  */
 public class WebAPI {
-    private static final String href = "http://172.30.43.246:3000/api/v1/";
-    private static String session = null;
+    private static final String href = "http://172.30.42.122:3000/api/v1/";
+    public static String session = null;
+    public static String firstName = null;
+    public static String lastName = null;
+    public static String mail = null;
+    public static String email = null;
+    public static boolean isConsumer = true;
 
     public JSONObject signinShopper(String em, String pw){
         String addr = href + "shoppers/signin";
@@ -51,8 +56,13 @@ public class WebAPI {
             e.printStackTrace();
         }
         JSONObject resp = doPost(addr, pdat, true);
+        System.out.println(resp.toString());
         try {
-            session = resp.getString("session");
+            if(resp != null && resp.has("session")) {
+                session = resp.getString("session");
+            } else {
+                System.out.println("There wasn't a session in the response");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -85,9 +95,17 @@ public class WebAPI {
         return "";
     }
 
-    public String createList() {
+    public JSONObject createList(String n, String a) {
         String addr = href + "lists";
-        return "";
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("name", n);
+            jo.put("address", a);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject ret = doPost(addr, jo);
+        return ret;
     }
 
     public String viewList(String listId) {
@@ -241,6 +259,12 @@ public class WebAPI {
 
         try {
             JSONObject jo = new JSONObject(result);
+            JSONObject us = jo.getJSONObject("user");
+            this.firstName = us.getString("firstName");
+            this.lastName = us.getString("lastName");
+            this.email = us.getString("email");
+            this.mail = us.getString("mail");
+            this.isConsumer = us.getBoolean("isConsumer");
             return jo;
         } catch (Exception e) {
             e.printStackTrace();

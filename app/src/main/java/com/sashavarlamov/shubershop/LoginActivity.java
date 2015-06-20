@@ -58,11 +58,6 @@ public class LoginActivity extends ActionBarActivity {
         if(resp.has("session")) {
             // TODO: Get the data from the response
             Intent intent = new Intent(this, CDecisionView.class);
-            intent.putExtra("firstname", "Sasha");
-            intent.putExtra("lastname", "Varlamov");
-            intent.putExtra("mail", "Hong Kong");
-            intent.putExtra("email", "me@me.com");
-            intent.putExtra("isConsumer", true);
             startActivity(intent);
             System.out.println("Started the activity");
         } else {
