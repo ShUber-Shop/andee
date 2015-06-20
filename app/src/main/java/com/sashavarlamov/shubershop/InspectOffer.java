@@ -77,15 +77,37 @@ public class InspectOffer extends ActionBarActivity {
         }
     }
 
+
+    // TODO: For all of the *offer(View view) methods, notify the user of all situations
     public void acceptOffer(View view) {
-        return;
+        if (api.acceptJob(job.id, listId)) {
+            job.accepted = true;
+            acceptButton.setVisibility(View.GONE);
+            payButton.setVisibility(View.VISIBLE);
+            reviewButton.setVisibility(View.GONE);
+        } else {
+
+        }
     }
 
     public void payOffer(View view) {
-        return;
+        if (api.payForJob(job.id, listId)) {
+            acceptButton.setVisibility(View.GONE);
+            payButton.setVisibility(View.GONE);
+            reviewButton.setVisibility(View.VISIBLE);
+        } else {
+
+        }
     }
 
     public void reviewOffer(View view) {
-        return;
+        if(api.reviewJob(job.id, listId)) {
+            acceptButton.setVisibility(View.GONE);
+            payButton.setVisibility(View.GONE);
+            reviewButton.setVisibility(View.GONE);
+            finish();
+        } else {
+
+        }
     }
 }

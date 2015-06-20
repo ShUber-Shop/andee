@@ -222,24 +222,39 @@ public class WebAPI {
         return "";
     }
 
-    public String acceptJob(String jobId) {
-        String addr = href + "jobs/" + jobId + "/accept";
-        return "";
+    public boolean acceptJob(String jobId, String listId) {
+        String addr = href + "lists/" + listId + "/jobs/" + jobId + "/accept";
+        JSONObject resp = doPost(addr, new JSONObject());
+        if(resp != null && resp.has("_id")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public String finishJob(String jobId) {
-        String addr = href + "jobs/" + jobId + "/finish";
-        return "";
+    public boolean finishJob(String jobId, String listId) {
+        String addr = href + "lists/" + listId + "/jobs/" + jobId + "/pay";
+        JSONObject resp = doPost(addr, new JSONObject());
+        if(resp != null && resp.has("_id")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public String payForJob(String jobId) {
-        String addr = href + "jobs/" + jobId + "/pay";
-        return "";
+    public boolean payForJob(String jobId, String listId) {
+        String addr = href + "lists/" + listId + "/jobs/" + jobId + "/pay";
+        JSONObject resp = doPost(addr, new JSONObject());
+        if(resp != null && resp.has("_id")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public String reviewJob(String jobId) {
-        String addr = href + "jobs/" + jobId + "/review";
-        return "";
+    public boolean reviewJob(String jobId, String listId) {
+        String addr = href + "lists/" + listId + "/jobs/" + jobId + "/review";
+        return true;
     }
 
     private JSONObject doPost(String uri, JSONObject json) {
