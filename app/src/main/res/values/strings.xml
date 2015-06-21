@@ -11,4 +11,6 @@
     <string name="title_activity_index_offers">IndexOffersActivity</string>
     <string name="title_activity_sdecision_view">SDecisionView</string>
     <string name="title_activity_inspect_offer">InspectOffer</string>
+    <string name="title_activity_inspect_offer_s">InspectOfferS</string>
+    <string name="title_activity_inspect_list_s">InspectListSActivity</string>
 </resources>

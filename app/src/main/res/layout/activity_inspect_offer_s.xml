@@ -1,13 +1,13 @@
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.sashavarlamov.shubershop.LoginActivity">
+    tools:context="com.sashavarlamov.shubershop.InspectOfferS">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,42 +15,50 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/from_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <EditText
-            android:id="@+id/email_input"
+            android:id="@+id/price_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="How Much You Want"
             android:inputType="textPersonName"
             android:maxLines="1"
             android:singleLine="true"/>
-        <EditText
-            android:id="@+id/password_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/sign_in_button_c"
+            android:id="@+id/do_offer_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Sign In as a Consumer"
+            android:text="Do This Job"
             android:textStyle="bold"
-            android:onClick="doLoginC"/>
+            android:onClick="doOffer"/>
 
         <Button
-            android:id="@+id/sign_in_button_s"
+            android:id="@+id/done_with_offer_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Sign In as a Shopper"
+            android:text="Done With This Job"
             android:textStyle="bold"
-            android:onClick="doLoginS"/>
+            android:onClick="doneWithOffer"/>
+
+        <Button
+            android:id="@+id/goto_list_inspector_s"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="View List"
+            android:textStyle="bold"
+            android:onClick="gotoListInspector"/>
 
     </LinearLayout>
-</ScrollView>
+
+</LinearLayout>

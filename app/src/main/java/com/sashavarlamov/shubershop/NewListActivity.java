@@ -51,9 +51,6 @@ public class NewListActivity extends ActionBarActivity {
     public void createList(View view) {
         JSONObject ret = api.createList(nameInput.getText().toString(), addrInput.getText().toString());
         if(ret != null && ret.has("name")) {
-            //finishActivity(0);
-            CDecisionView cd = (CDecisionView) getParent();
-            cd.loadData();
             finish();
         } else {
             // TODO: Notify the user that we couldn't create the new list

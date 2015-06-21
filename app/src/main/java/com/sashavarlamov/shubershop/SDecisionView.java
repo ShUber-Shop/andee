@@ -17,7 +17,7 @@ public class SDecisionView extends ActionBarActivity {
     private final WebAPI api = new WebAPI();
     private String listId = null;
     private String listName = null;
-    private ListView pendingOffersView = null;
+    private ListView shoppersOffersView = null;
     private ArrayList<Job> jobs = null;
     private SDecisionView me = this;
 
@@ -75,12 +75,12 @@ public class SDecisionView extends ActionBarActivity {
                 cnt++;
             }
         }
-        pendingOffersView = (ListView) findViewById(R.id.pending_offers_list);
+        shoppersOffersView = (ListView) findViewById(R.id.shoppers_offers_list);
         ArrayAdapter<String> lists = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_row, finArr);
-        pendingOffersView.setAdapter(lists);
-        pendingOffersView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        shoppersOffersView.setAdapter(lists);
+        shoppersOffersView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Intent intent = new Intent(me, InspectOffer.class);
+                Intent intent = new Intent(me, InspectOfferS.class);
                 intent.putExtra("listId", listId);
                 intent.putExtra("listName", listName);
                 intent.putExtra("jobId", jobs.get(arg2).id);

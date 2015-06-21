@@ -22,7 +22,7 @@ import java.util.HashMap;
  * Created by sashaadmin on 6/20/15.
  */
 public class WebAPI {
-    private static final String href = "http://172.30.42.122:3000/api/v1/";
+    private static final String href = "http://192.168.8.112:3000/api/v1/";
     private static String session = null;
     public static String firstName = null;
     public static String lastName = null;
@@ -174,17 +174,19 @@ public class WebAPI {
         JSONObject ret = doGet(addr, null);
         ArrayList<Job> fin = new ArrayList<Job>();
         try {
-            JSONArray arr = ret.getJSONArray("jobs");
-            for(int i = 0; i < arr.length(); i++) {
-                JSONObject c = arr.getJSONObject(i);
-                Job j = new Job();
-                j.accepted = c.getBoolean("accepted");
-                j.done = c.getBoolean("done");
-                j.listId = listId;
-                j.id = c.getString("_id");
-                j.shopper = c.getString("shopper");
-                j.offer = (c.optDouble("offer", -1.0) >= 0) ? c.getDouble("offer") : c.getInt("offer");
-                fin.add(j);
+            if(ret != null && ret.has("jobs")) {
+                JSONArray arr = ret.getJSONArray("jobs");
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject c = arr.getJSONObject(i);
+                    Job j = new Job();
+                    j.accepted = c.getBoolean("accepted");
+                    j.done = c.getBoolean("done");
+                    j.listId = c.getString("list");
+                    j.id = c.getString("_id");
+                    j.shopper = c.getString("shopper");
+                    j.offer = (c.optDouble("offer", -1.0) >= 0) ? c.getDouble("offer") : c.getInt("offer");
+                    fin.add(j);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -240,6 +242,12 @@ public class WebAPI {
         } else {
             return false;
         }
+    }
+
+    public JSONObject doJob(String jobId, String listId, double price) {
+        String addr = href + "lists/" + listId + "/jobs/" + jobId + "/givePrice";
+        JSONObject resp = doPost(addr, new JSONObject());
+        return resp;
     }
 
     public boolean payForJob(String jobId, String listId) {

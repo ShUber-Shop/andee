@@ -81,6 +81,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sashavarlamov.shubershop.IndexOffersActivity" />
         </activity>
+        <activity
+            android:name=".InspectOfferS"
+            android:label="@string/title_activity_inspect_offer_s"
+            android:parentActivityName=".SDecisionView" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sashavarlamov.shubershop.SDecisionView" />
+        </activity>
+        <activity
+            android:name=".InspectListSActivity"
+            android:label="@string/title_activity_inspect_list_s"
+            android:parentActivityName=".InspectOfferS" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sashavarlamov.shubershop.InspectOfferS" />
+        </activity>
     </application>
 
 </manifest>
