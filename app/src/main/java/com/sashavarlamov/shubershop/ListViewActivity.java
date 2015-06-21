@@ -20,8 +20,8 @@ import java.util.Map;
 
 
 public class ListViewActivity extends ActionBarActivity {
-    private String listId = null;
-    private String listName = null;
+    private static String listId = null;
+    private static String listName = null;
     private JSONObject list = null;
     private TextView addrLabel = null;
     private ListView shoppingItemsView;
@@ -36,8 +36,11 @@ public class ListViewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
 
-        listId = getIntent().getStringExtra("listId");
-        listName = getIntent().getStringExtra("listName");
+        System.out.println("In the onCreate()");
+        if(getIntent().getStringExtra("listId") != null) {
+            listId = getIntent().getStringExtra("listId");
+            listName = getIntent().getStringExtra("listName");
+        }
 
         setTitle(listName);
 

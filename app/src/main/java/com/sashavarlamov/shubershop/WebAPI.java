@@ -23,7 +23,7 @@ import java.util.HashMap;
  */
 public class WebAPI {
     private static final String href = "http://172.30.42.122:3000/api/v1/";
-    public static String session = null;
+    private static String session = null;
     public static String firstName = null;
     public static String lastName = null;
     public static String mail = null;

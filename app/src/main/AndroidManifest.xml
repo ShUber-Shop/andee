@@ -29,6 +29,9 @@
         <activity
             android:name=".ListViewActivity"
             android:label="@string/title_activity_list_view" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sashavarlamov.shubershop.CDecisionView" />
         </activity>
         <activity
             android:name=".NewListActivity"

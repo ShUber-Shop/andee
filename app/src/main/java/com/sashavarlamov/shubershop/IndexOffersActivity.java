@@ -25,6 +25,7 @@ public class IndexOffersActivity extends ActionBarActivity {
     private ListView pendingOffersView = null;
     private ArrayList<Job> jobs = null;
     private IndexOffersActivity me = this;
+    private ArrayList<Job> withOffers = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,23 +63,22 @@ public class IndexOffersActivity extends ActionBarActivity {
     }
 
     public void loadData(){
-        // TODO: Actually present the information
         jobs = api.indexJobs(listId);
-        ArrayList<String> fin = new ArrayList<String>();
-        for(int i = 0; i < jobs.size(); i++) {
-            if(jobs.get(i).offer > 0) {
-                fin.add(jobs.get(i).offer + " Delivered.");
+        withOffers = new ArrayList<>();
+        for(Job j : jobs) {
+            if (j.offer > 0) {
+                withOffers.add(j);
             }
         }
         String[] finArr;
-        if(fin.size() == 0) {
+        if(withOffers.size() == 0) {
             finArr = new String[1];
             finArr[0] = "No Offers Have Been Submitted Yet";
         } else {
-            finArr = new String[fin.size()];
+            finArr = new String[withOffers.size()];
             int cnt = 0;
-            for(String s : fin) {
-                finArr[cnt] = s;
+            for(Job j : withOffers) {
+                finArr[cnt] = ((Double) j.offer).toString();
                 cnt++;
             }
         }
@@ -96,6 +96,5 @@ public class IndexOffersActivity extends ActionBarActivity {
                 System.out.println("Clicked an item");
             }
         });
-        System.out.println(jobs.get(0).offer);
     }
 }

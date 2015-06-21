@@ -57,7 +57,7 @@ public class CDecisionView extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newList(){
+    public void newList(View view){
         Intent intent = new Intent(this, NewListActivity.class);
         startActivity(intent);
     }
